@@ -1,9 +1,11 @@
 import React from "react";
 import InputText from "./Form/InputText";
+import Select from "./Form/Select";
 
 const App = () => {
   const [nome, setNome] = React.useState("");
   const [email, setEmail] = React.useState("");
+  const [produto, setProduto] = React.useState("");
   return (
     <form>
       <InputText
@@ -21,7 +23,13 @@ const App = () => {
         value={email}
         setValue={setEmail}
       />
-      <button>Enviar</button>
+      <Select
+        options={["Notebook", "Smartphone", "Tablet"]}
+        value={produto}
+        setValue={setProduto}
+      />
+      <br />
+      <button style={{ marginTop: "1rem" }}>Enviar</button>
     </form>
   );
 };
