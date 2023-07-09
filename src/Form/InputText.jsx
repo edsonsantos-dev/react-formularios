@@ -5,7 +5,11 @@ const InputText = ({
   nameLabel,
   id,
   onChange,
-  ...props
+  value,
+  onBlur,
+  placeholder,
+  error,
+  style,
 }) => {
   return (
     <>
@@ -14,8 +18,19 @@ const InputText = ({
         type="text"
         id={id}
         onChange={onChange}
-        {...props}
+        placeholder={placeholder}
+        onBlur={onBlur}
+        value={value}
       />
+      {error && (
+        <p
+          style={{
+            color: "red",
+          }}
+        >
+          {error}
+        </p>
+      )}
     </>
   );
 };

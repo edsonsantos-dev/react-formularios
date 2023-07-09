@@ -1,48 +1,25 @@
 import React from "react";
 import InputText from "./Form/InputText";
+import useForm from "./Form/useForm";
 
 const App = () => {
-  const regex = /^[0-9]{5}-?[0-9]{3}$/;
-  const [cep, setCep] = React.useState("");
-  const [error, setError] = React.useState(null);
+  const cep = useForm("cep");
+  const email= useForm("email")
+  const nome = useForm();
+
   const [endereco, setEndereco] = React.useState(null);
-
-  function validateCep(value) {
-    if (value.length === 0) {
-      setError("Preencha um valor");
-      return false;
-    }
-
-    if (!regex.test(value) || value === "00000-000" || value === "00000000") {
-      setError("Preencha um CEP válido!");
-      return false;
-    }
-
-    setError(null);
-    return true;
-  }
-
-  function handleBlur({ target }) {
-    validateCep(target.value);
-  }
-
-  function handleChange({ target }) {
-    if (error) validateCep(target.value);
-    setCep(target.value);
-  }
 
   async function handleSubmit(event) {
     event.preventDefault();
-    if (!validateCep(cep)) {
+    if (!cep.validate()) {
       console.log("Não enviou!");
       setEndereco(null);
     } else {
       const resp = await fetch(
-        `https://www.cepcerto.com/ws/json/${cep.replace("-", "")}`
+        `https://www.cepcerto.com/ws/json/${cep.value.replace("-", "")}`
       );
       const respJson = await resp.json();
       setEndereco(respJson);
-      console.log(respJson);
     }
   }
 
@@ -53,12 +30,22 @@ const App = () => {
           enableLabel={true}
           nameLabel={"CEP"}
           id={"cep"}
-          value={cep}
-          onChange={handleChange}
           placeholder={"00000-000"}
-          onBlur={handleBlur}
+          {...cep}
         />
-        {error && <p style={{ color: "red" }}>*{error}</p>}
+        <InputText
+          enableLabel={true}
+          nameLabel={"E-mail"}
+          id={"email"}
+          placeholder={"email@email.com"}
+          {...email}
+        />
+        <InputText
+          enableLabel={true}
+          nameLabel={"Nome"}
+          id={"nome"}
+          {...nome}
+        />
         <button>Enviar</button>
       </form>
       {endereco && (
