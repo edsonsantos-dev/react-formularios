@@ -4,7 +4,7 @@ const InputText = ({
   enableLabel,
   nameLabel,
   id,
-  setValue,
+  onChange,
   ...props
 }) => {
   return (
@@ -13,7 +13,7 @@ const InputText = ({
       <input
         type="text"
         id={id}
-        onChange={({ target }) => setValue(target.value)}
+        onChange={onChange}
         {...props}
       />
     </>
